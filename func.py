@@ -12,11 +12,17 @@ def getFileFormat(file):
     f.close()
     return result["encoding"]
 
-# 获取文件的读写对象
-def getFileRWObj(path):
+# 获取文件的只读对象
+def getFileReadObj(path):
     fileFormat = getFileFormat(path)
     # 获取到文件读取对象
-    f = codecs.open(path,"r+",fileFormat)
+    f = codecs.open(path,"r",fileFormat)
+    return f
+
+# 获取文件的只写对象
+def getFileWriteObj(path):
+    # fileFormat = getFileFormat(path)
+    f = codecs.open(path,"w","utf8")
     return f
 
 #判断该文件是否是lua后缀的文件,true为是
@@ -56,8 +62,17 @@ def processFile(file):
         # s1 = f.read()
     except OSError:
         print("file's format is not utf-8")
-
+# 按行读取，去掉换行符
+def readLineWithoutLineBreak(f):
+    return f.readline().strip('\n')
 #按行写入
-def writeFileByLine(f,line):
-    f.write(line+"\n")
-
+def writeFileInTheEndByLine(f,line):
+    if line:
+        f.write(line+"\n")
+    else:
+        f.write("\n")
+# 多行写入
+# lines 是列表，列表每一项是1行
+def writeFileInTheEndByLines(f,lines):
+    for line in lines:
+        writeFileInTheEndByLine(f,line)
