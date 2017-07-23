@@ -5,6 +5,8 @@ import constant
 
 CHECK_KEY_SENTENCE = "\-{2}\*{2}.+\*{2}\-{2}"
 GET_KEYWORD = "[0-9a-z]+"
+GET_INCLUDE_LIST = r"(?<=(\<include\>))(.+)(?=(\<\/include\>))"
+GET_EXCEPT_LIST = r"(?<=(\<except\>))(.+)(?=(\<\/except\>))"
 def rrr(m):
     print(m.group())
 # 判断是不是关键句，是为true
@@ -21,6 +23,23 @@ def getKeyword(s):
     group=re_word.findall(s)
     return group
 
+def getIncludeList(s):
+    re_word = re.compile(GET_INCLUDE_LIST)
+    group = re_word.search(s)
+    if group!=None:
+        print(group[0])
+        return group[0]
+    else:
+        return None
+
+def getExceptList(s):
+    re_word = re.compile(GET_EXCEPT_LIST)
+    group = re_word.search(s)
+    if group!=None:
+        print(group[0])
+        return group[0]
+    else:
+        return None
 # f=func.getFileReadObj(constant.TEST_PATH_HOME+"1.txt")
 # # func.readLineWithoutLineBreak(f)
 # s=func.readLineWithoutLineBreak(f)
@@ -35,3 +54,8 @@ def getKeyword(s):
 # group=re_word1.findall(s)
 # for g in group:
 #     print(g)
+group = getExceptList("--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>")
+if group!=None:
+    groups = getKeyword(group)
+    for g in groups:
+        print(g)

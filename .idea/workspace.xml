@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0305e457-7846-43ea-8987-06292c850980" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/new.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/readLabel.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/recogniseLabel.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/xmlReader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/constant.py" afterPath="$PROJECT_DIR$/constant.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/create.py" afterPath="$PROJECT_DIR$/create.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/func.py" afterPath="$PROJECT_DIR$/func.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/testFunc.py" afterPath="$PROJECT_DIR$/testFunc.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/readLabel.py" afterPath="$PROJECT_DIR$/readLabel.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -49,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="readLabel.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="readLabel.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/readLabel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state relative-caret-position="703">
+              <caret line="59" column="20" lean-forward="true" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
               <folding>
                 <element signature="e#14#23#0" expanded="true" />
               </folding>
@@ -64,8 +53,8 @@
       <file leaf-file-name="recogniseLabel.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/recogniseLabel.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-299">
-              <caret line="11" column="28" lean-forward="true" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+            <state relative-caret-position="392">
+              <caret line="44" column="22" lean-forward="false" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
               <folding>
                 <element signature="e#14#30#0" expanded="true" />
               </folding>
@@ -105,11 +94,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="create.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="create.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/create.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-437">
-              <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+            <state relative-caret-position="93">
+              <caret line="18" column="12" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
               <folding>
                 <element signature="e#15#31#0" expanded="true" />
               </folding>
@@ -140,12 +129,12 @@
         <option value="$PROJECT_DIR$/testFunc.py" />
         <option value="$PROJECT_DIR$/new.xml" />
         <option value="$PROJECT_DIR$/.idea/recogniseLabel.py" />
-        <option value="$PROJECT_DIR$/readLabel.py" />
         <option value="$PROJECT_DIR$/recogniseLabel.py" />
         <option value="$PROJECT_DIR$/func.py" />
         <option value="$PROJECT_DIR$/xmlReader.py" />
         <option value="$PROJECT_DIR$/constant.py" />
         <option value="$PROJECT_DIR$/create.py" />
+        <option value="$PROJECT_DIR$/readLabel.py" />
       </list>
     </option>
   </component>
@@ -230,7 +219,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.create">
+  <component name="RunManager" selected="Python.readLabel">
     <configuration default="false" name="testFunc" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -598,9 +587,9 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.create" />
-        <item index="1" class="java.lang.String" itemvalue="Python.recogniseLabel" />
-        <item index="2" class="java.lang.String" itemvalue="Python.readLabel" />
+        <item index="0" class="java.lang.String" itemvalue="Python.readLabel" />
+        <item index="1" class="java.lang.String" itemvalue="Python.create" />
+        <item index="2" class="java.lang.String" itemvalue="Python.recogniseLabel" />
         <item index="3" class="java.lang.String" itemvalue="Python.xmlReader" />
         <item index="4" class="java.lang.String" itemvalue="Python.testFunc" />
       </list>
@@ -608,6 +597,9 @@
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -621,7 +613,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -631,7 +622,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32910052" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32910052" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -823,32 +814,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/readLabel.py">
+    <entry file="file://$PROJECT_DIR$/create.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="22" column="13" lean-forward="true" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state relative-caret-position="93">
+          <caret line="18" column="12" lean-forward="false" selection-start-line="18" selection-start-column="12" selection-end-line="18" selection-end-column="12" />
           <folding>
-            <element signature="e#14#23#0" expanded="true" />
+            <element signature="e#15#31#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/recogniseLabel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-299">
-          <caret line="11" column="28" lean-forward="true" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
+        <state relative-caret-position="392">
+          <caret line="44" column="22" lean-forward="false" selection-start-line="44" selection-start-column="22" selection-end-line="44" selection-end-column="22" />
           <folding>
             <element signature="e#14#30#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/create.py">
+    <entry file="file://$PROJECT_DIR$/readLabel.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-437">
-          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        <state relative-caret-position="703">
+          <caret line="59" column="20" lean-forward="true" selection-start-line="59" selection-start-column="20" selection-end-line="59" selection-end-column="20" />
           <folding>
-            <element signature="e#15#31#0" expanded="true" />
+            <element signature="e#14#23#0" expanded="true" />
           </folding>
         </state>
       </provider>

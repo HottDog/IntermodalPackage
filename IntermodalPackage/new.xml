@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="uc"
+		 desc="uc联运包">
+	<android name="1.txt">
+		<insert name="first">
+			<content>hello world!</content>
+			<content>first</content>
+		</insert>
+		<insert name="first2">
+			<content>hello world!</content>
+			<content>first</content>
+		</insert>
+	</android>
+	<android name="2.txt">
+		<insert name="first">
+			<content>hello world!</content>
+			<content>first</content>
+		</insert>
+		<insert name="first2">
+			<content>hello world!</content>
+			<content>first</content>
+		</insert>
+	</android>
+	<script name="test.txt">
+		<insert name="insert1">
+			<content>hello world!</content>
+			<content>插入第一次</content>
+		</insert>
+		<insert name="first2ss">
+			<content>hello world!</content>
+			<content>插入</content>
+		</insert>
+		<update name="update1">
+			<content>hello world!</content>
+			<content>update更新</content>
+		</update>
+	</script>
+	<script name="2ss.txt">
+		<insert name="firssst">
+			<content>hello world!</content>
+			<content>first</content>
+		</insert>
+		<insert name="first2ss">
+			<content>hello world!</content>
+			<content>first</content>
+		</insert>
+	</script>
+</package>
