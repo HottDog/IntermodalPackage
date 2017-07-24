@@ -1,0 +1,31 @@
+--**delete-uc**--[na22me]
+hello world!
+i love you
+ji
+dssd
+das
+hello world!
+i love you
+das
+ji
+dssd
+hello world!
+i love you
+das
+ji
+dssd
+
+hah
+hello world!
+i love you
+dssd
+das
+ji
+hello world!
+i love you
+
+ji
+das
+dssd
+--**delete-all**--[name1]
+hah
