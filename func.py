@@ -2,6 +2,13 @@
 import os
 import chardet
 import codecs
+
+def isInList(item,lists):
+    for list in lists:
+        if list == item:
+            return True
+    return False
+
 # 获取文件的编码格式
 def getFileFormat(file):
     f=open(file,"rb+")
@@ -76,3 +83,5 @@ def writeFileInTheEndByLine(f,line):
 def writeFileInTheEndByLines(f,lines):
     for line in lines:
         writeFileInTheEndByLine(f,line)
+
+

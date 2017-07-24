@@ -23,6 +23,7 @@ def getKeyword(s):
     group=re_word.findall(s)
     return group
 
+# 获取include标签包含的联运包列表
 def getIncludeList(s):
     re_word = re.compile(GET_INCLUDE_LIST)
     group = re_word.search(s)
@@ -32,6 +33,7 @@ def getIncludeList(s):
     else:
         return None
 
+# 获取except标签包含的联运包列表
 def getExceptList(s):
     re_word = re.compile(GET_EXCEPT_LIST)
     group = re_word.search(s)
@@ -54,8 +56,53 @@ def getExceptList(s):
 # group=re_word1.findall(s)
 # for g in group:
 #     print(g)
-group = getExceptList("--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>")
-if group!=None:
-    groups = getKeyword(group)
-    for g in groups:
-        print(g)
+
+#返回的参数
+# arg1 如果没有结果则为None,
+#      如果有结果则是一个group，group是一个列表，
+#      第一个元素是update，insert这样的action字段，
+#      第二个元素是联运包的标识名，
+#      第三个元素如果有end则为end，否则为None,
+#      第四个元素是要替换的部分的name，
+#      第五个元素如果联运包的标识符是all的话，include或者except标签名，
+#      第六个元素是include或者except里面包含的联运包的列表
+def getParseLabelResult(s):
+    if isKeySentence(s):
+        group = getKeyword(s)
+        print(group)
+        if group[1] == constant.ALL:
+            # 判断有没有end表示符
+            if group[2] != constant.END:
+                name = group[2]
+                group[2] = None
+                group[3] = name
+            sentence = getIncludeList(s)
+            if sentence!=None:
+                group[4] = constant.INCLUDE
+                group[5] = getKeyword(sentence)
+            else:
+                sentence = getExceptList(s)
+                group[4] = constant.EXCEPT
+                group[5] = getKeyword(sentence)
+            return group[0:6]
+        else:
+            # 判断有没有end表示符
+            if group[2] != constant.END:
+                name = group[2]
+                group[2] = None
+                group.append(name)
+            return group
+    else:
+        return None
+
+str = "--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
+str1 = "--**update-all-end**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
+str2 = "--**delete-uc-end**--[name]"
+str3 = "--**delete-uc**--[name]"
+print(getParseLabelResult(str3))
+# group = getExceptList("--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>")
+# if group!=None:
+#     groups = getKeyword(group)
+#     for g in groups:
+#         print(g)
+
