@@ -87,5 +87,5 @@ def processFile(file,package):
     w.close()
 
 if __name__ == '__main__':
-    package = xmlReader.parseXML(constant.TEST_PATH_HOME+"new.xml")
+    package = xmlReader.parseXML("new.xml")
     processFile("test.txt",package)
