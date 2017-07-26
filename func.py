@@ -2,12 +2,40 @@
 import os
 import chardet
 import codecs
+import shutil
 
+# 判断某项是否在该列表中
+# 参数
+# arg1 item 某项
+# arg2 lists 列表
+# return true表示在，false表示不在
 def isInList(item,lists):
     for list in lists:
         if list == item:
             return True
     return False
+
+# 字典中是否包含该key
+# return true表示包含，false表示不包含
+def isInDict(key,dict):
+    return key in dict.keys()
+
+# 获取复制过去的路径
+# fPath 读取的起始路径
+# tPath 复制到的起始路径
+# 被复制文件的路径
+def getCopyDestination(fPath,tPath,path):
+    relPath = os.path.relpath(path,fPath)
+    print(tPath+"\\"+relPath)
+    return tPath+"\\"+relPath
+
+# 获取文件名
+def getFileNameFromPath(path):
+    return os.path.basename(path)
+
+# 获取文件拓展名
+def getFileSuffixName(path):
+    return os.path.splitext(path)[1]
 
 # 获取文件的编码格式
 def getFileFormat(file):
@@ -39,23 +67,29 @@ def isLuaFile(path):
     else:
         return False
 
-#遍历文件夹中的所有文件,并进行替换操作
-#path 需要处理的文件夹的路径
-def traverse(path):
+# 遍历文件夹中的所有文件,并进行替换操作
+# path 需要处理的文件夹的路径
+# processFile 处理文件的函数
+# processFiles 处理文件夹的函数
+def traverse(path,processFile,processFiles):
     #如果是单个文件，则直接处理
     if not os.path.isdir(path):
-        # processFile(path)
+        processFile(path)
         return
+    else:
+        if processFiles!=None:
+            processFiles(path)
     #如果是文件夹则遍历处理
     files =os.listdir(path)
     for file in files:
         if not os.path.isdir(path+"\\"+file):
             #不是文件夹
-            # processFile(path+"\\"+file)
-            return
+            processFile(path+"\\"+file)
         else:
             # print('文件夹:'+path+"\\"+file)
-            traverse(path+"\\"+file)
+            if processFiles!=None:
+                processFiles(path+"\\"+file)
+            traverse(path+"\\"+file,processFile,processFiles)
 
 #处理单个文本函数
 def processFile(file):
@@ -69,6 +103,7 @@ def processFile(file):
         # s1 = f.read()
     except OSError:
         print("file's format is not utf-8")
+
 # 按行读取，去掉换行符
 def readLineWithoutLineBreak(f):
     return f.readline().strip('\n')
@@ -83,5 +118,24 @@ def writeFileInTheEndByLine(f,line):
 def writeFileInTheEndByLines(f,lines):
     for line in lines:
         writeFileInTheEndByLine(f,line)
+
+# 复制文件或者文件夹
+# 复制文件，如果文件存在就覆盖，不存在则创建
+# 复制文件夹，如果存在则不管，如果不存在，则创建
+def copyFile(fPath,tPath):
+    if os.path.exists(tPath) :
+        # 存在
+        if not os.path.isdir(fPath):
+            shutil.copyfile(fPath,tPath)
+    else:
+        if os.path.isdir(fPath):
+            os.makedirs(tPath)
+        else:
+            shutil.copyfile(fPath,tPath)
+
+
+
+
+
 
 

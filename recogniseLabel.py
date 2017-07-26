@@ -1,6 +1,5 @@
 #coding=utf-8
 import readLabel
-import create
 import func
 import constant
 
@@ -20,9 +19,9 @@ def whenAllCheckAction(flag,packName,lists):
 # 删除操作
 def delete(isEnd,name):
     if isEnd==constant.END:
-        return create.NORMAL_WRITE,name
+        return constant.NORMAL_WRITE,name
     else:
-        return create.DELETE_PASS,name
+        return constant.DELETE_PASS,name
 
 def deleteAction(group,packName):
     if group[1] == packName:
@@ -36,14 +35,14 @@ def deleteAction(group,packName):
         return None,""
 
 def update(isEnd,name):
-    if isEnd == constant.END:
-        return create.NORMAL_WRITE,name
+    if isEnd != None:
+        return constant.NORMAL_WRITE,name
     else:
-        return create.UPDATE_WRITE,name
+        return constant.UPDATE_WRITE,name
 
 def updateAction(group,packName):
     if group[1] == packName:
-        update(group[2],group[3])
+        return update(group[2],group[3])
     elif group[1] == constant.ALL:
         if whenAllCheckAction(group[4],packName,group[5]):
             return update(group[2],group[3])
@@ -53,7 +52,7 @@ def updateAction(group,packName):
         return None,""
 
 def insert(name):
-    return create.INSERT_WRITE,name
+    return constant.INSERT_WRITE,name
 
 def insertAction(group,packName):
     if group[1] == packName:
@@ -63,6 +62,8 @@ def insertAction(group,packName):
             return insert(group[3])
         else:
             return None,""
+    else:
+        return None,""
 
 # 返回的参数
 # arg1 文件读写的操作
@@ -88,8 +89,8 @@ if __name__ == '__main__' :
     str1 = "--**update-all-end**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
     str2 = "--**delete-uc-end**--[name]"
     str3 = "--**delete-uc**--[name]"
-    act,name = getFileProcessAction(readLabel.getParseLabelResult(str),"uc")
+    act,name = getFileProcessAction(readLabel.getParseLabelResult(str3),"uc")
     print(name)
-    if act == create.UPDATE_WRITE:
+    if act == constant.UPDATE_WRITE:
         print("create.UPDATE_WRITE")
     print(act)

@@ -1,4 +1,7 @@
 # coding=utf-8
+SCRIPT_RESOURCE_PATH = "E:\\test_workspace\\IntermodalPackage\\resource"
+SCRIPT_COMBINED_PATH = "E:\\test_workspace\\IntermodalPackage\\combined"
+
 TEST_PATH = "E:\\test_workspace\\IntermodalPackage\\"
 TEST_PATH_HOME = "H:\\A_test_workspace\\IntermodalPackage\\"
 
@@ -16,3 +19,9 @@ END = "end"
 INCLUDE = "include"
 EXCEPT = "except"
 
+# 文件读写操作指令
+DELETE_PASS = 0x100
+UPDATE_WRITE = 0x101
+INSERT_WRITE = 0x102
+NORMAL_WRITE = 0x103
+UPDATE_WRITE_END = 0x104

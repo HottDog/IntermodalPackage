@@ -1,7 +1,7 @@
 # coding=utf-8
 import func
 import constant
-
+import os
 # f= func.getFileWriteObj(constant.TEST_PATH_HOME+"1.txt")
 # func.writeFileInTheEndByLine(f,"hello world!")
 # func.writeFileInTheEndByLine(f,"i love you")
@@ -21,10 +21,20 @@ import constant
 # func.writeFileInTheEndByLine(f1,m1)
 # func.writeFileInTheEndByLine(f1,m2)
 
-a={}
-a["name"] = 1
-a["name"] = "bn "
-print(a["name"])
-a["first"] = ["hah","hahsd","sdasd"]
-for s in a["first"]:
-    print(s)
+# a["name"] = 1
+# a["name"] = "bn "
+# print(a["name"])
+# a["first"] = ["hah","hahsd","sdasd"]
+# for s in a["first"]:
+#     print(s)
+# a={"in":1,"sda":2}
+# if not 'sss' in a.keys():
+#     print("孔")
+# func.copyFile(constant.TEST_RESOURCE_PATH+"aa",constant.TEST_COMBINED_PATH+"aa")
+# func.getCopyDestination(constant.SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,"E:\\test_workspace\\IntermodalPackage\\resource\\script")
+path = "E:\\test_workspace\\IntermodalPackage\\resource\\script\\error.lua"
+name= os.path.basename("E:\\test_workspace\\IntermodalPackage\\resource\\script\\error.lua")
+etc = os.path.splitext("E:\\test_workspace\\IntermodalPackage\\resource\\script\\error.lua")
+print(func.getFileSuffixName(path))
+# print(name)
+# print(etc[1])
