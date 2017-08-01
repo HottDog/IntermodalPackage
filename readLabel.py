@@ -4,7 +4,7 @@ import func
 import constant
 
 CHECK_KEY_SENTENCE = "\-{2}\*{2}.+\*{2}\-{2}"
-GET_KEYWORD = "[0-9a-z]+"
+GET_KEYWORD = "[0-9a-zA-Z]+"
 GET_INCLUDE_LIST = r"(?<=(\<include\>))(.+)(?=(\<\/include\>))"
 GET_EXCEPT_LIST = r"(?<=(\<except\>))(.+)(?=(\<\/except\>))"
 def rrr(m):
@@ -69,7 +69,7 @@ def getExceptList(s):
 def getParseLabelResult(s):
     if isKeySentence(s):
         group = getKeyword(s)
-        print(group)
+        # print(group)
         if group[1] == constant.ALL:
             # 判断有没有end表示符
             if group[2] != constant.END:
@@ -95,11 +95,13 @@ def getParseLabelResult(s):
     else:
         return None
 
-str = "--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
-str1 = "--**update-all-end**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
-str2 = "--**delete-uc-end**--[name]"
-str3 = "--**delete-uc**--[name]"
-print(getParseLabelResult(str3))
+if __name__ == '__main__' :
+    str = "--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
+    str1 = "--**update-all-end**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
+    str2 = "--**delete-uc-end**--[name]"
+    str3 = "--**delete-uc**--[name]"
+    str4 = "--**delete-uc**--[first]"
+    print(getParseLabelResult(str4))
 # group = getExceptList("--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>")
 # if group!=None:
 #     groups = getKeyword(group)

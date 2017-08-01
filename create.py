@@ -3,78 +3,37 @@ import xmlReader
 import readLabel
 import func
 import constant
-
-DELETE_PASS = 0x100
-UPDATE_WRITE = 0x101
-INSERT_WRITE = 0x102
-NORMAL_WRITE = 0x103
-UPDATE_WRITE_END = 0x104
-
-DELETE = "delete"
-INSERT = "insert"
-UPDATE = "update"
-ALL = "all"
-END = "end"
-
-def deleteAction(group,packName):
-    if group[1] == packName:
-        if group[2] ==END :
-            return NORMAL_WRITE,group[3]
-        else:
-            return DELETE_PASS,group[2]
-    else :
-        return None,""
-def updateAction(group,packName):
-    if group[1] == packName:
-        if group[2]==END:
-            return NORMAL_WRITE,group[3]
-        else:
-            return UPDATE_WRITE,group[2]
-    else:
-        return None,""
-
-# 返回的参数
-# arg1 文件读写的操作
-# arg2 包标识
-# arg3 name
-def getFileProcessAction(group,packageName):
-    if group[0] == DELETE:
-        return deleteAction(group,packageName)
-    elif group[0] == INSERT:
-        if group[1] == packageName:
-            return INSERT_WRITE,group[2]
-        else:
-            return None,""
-    elif group[0] == UPDATE:
-        return updateAction(group,packageName)
-
+import recogniseLabel
+import os
 def excuteAction(w,s,isKey,action,name,dict):
-    if action == NORMAL_WRITE:
+    if action == constant.NORMAL_WRITE:
         if not isKey:
             func.writeFileInTheEndByLine(w,s)
-    elif action == UPDATE_WRITE:
-        if action != UPDATE_WRITE_END:
+    elif action == constant.UPDATE_WRITE:
+        if action != constant.UPDATE_WRITE_END:
             if not isKey:
                 func.writeFileInTheEndByLines(w,dict["update"][name])
-                return UPDATE_WRITE_END
-    elif action == INSERT_WRITE:
+                return constant.UPDATE_WRITE_END
+    elif action == constant.INSERT_WRITE:
         func.writeFileInTheEndByLines(w,dict["insert"][name])
-        return NORMAL_WRITE
+        return constant.NORMAL_WRITE
     return None
 
-def processFile(file,package):
-    f=func.getFileReadObj(constant.TEST_RESOURCE_PATH+file)
-    w=func.getFileWriteObj(constant.TEST_COMBINED_PATH+file)
-    action = NORMAL_WRITE
+def modifyFile(rPath,wPath,fileName,package):
+    f=func.getFileReadObj(rPath)
+    w=func.getFileWriteObj(wPath)
+    action = constant.NORMAL_WRITE
     packageName = package["name"]
-    dealContent = package[xmlReader.SCRIPT][file]
+    dealContent = package[xmlReader.SCRIPT][fileName]
     print(dealContent)
     s=func.readLineWithoutLineBreak(f)
     name = ""
     while(s):
         isKeySentence = False
-        if readLabel.isKeySentence(s):
-            actiomTmp,nameTmp = getFileProcessAction(readLabel.getKeyword(s),packageName)
+        groupTemp = readLabel.getParseLabelResult(s)
+        print(groupTemp)
+        if groupTemp!= None:
+            actiomTmp,nameTmp = recogniseLabel.getFileProcessAction(groupTemp,packageName)
             if actiomTmp != None:
                 action = actiomTmp
                 name = nameTmp
@@ -86,6 +45,43 @@ def processFile(file,package):
     f.close()
     w.close()
 
+def directCopyFile(path):
+    tPath = func.getCopyDestination(constant.WORK_SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path)
+    func.copyFile(path,tPath)
+
+def isFileNeedModify(path,package):
+    fileName = func.getFileNameFromPath(path)
+    if func.isInDict(fileName,package[xmlReader.SCRIPT]):
+        # processFile(path,func.getCopyDestination(constant.SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path))
+        return True
+    else:
+        return False
+
+def processFile(path,package):
+    if isFileNeedModify(path,package):
+        modifyFile(path,func.getCopyDestination(constant.WORK_SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path),func.getFileNameFromPath(path),package)
+    else:
+        directCopyFile(path)
+
+def traverse(path,package):
+    #如果是单个文件，则直接处理
+    if not os.path.isdir(path):
+        processFile(path,package)
+        return
+    else:
+        directCopyFile(path)
+    #如果是文件夹则遍历处理
+    files =os.listdir(path)
+    for file in files:
+        if not os.path.isdir(path+"\\"+file):
+            #不是文件夹
+            processFile(path+"\\"+file,package)
+        else:
+            # print('文件夹:'+path+"\\"+file)
+            directCopyFile(path+"\\"+file)
+            traverse(path+"\\"+file,package)
+
 if __name__ == '__main__':
-    package = xmlReader.parseXML(constant.TEST_PATH_HOME+"new.xml")
-    processFile("test.txt",package)
+    package = xmlReader.parseXML("baidu.xml")
+    traverse(constant.WORK_SCRIPT_RESOURCE_PATH,package)
+    # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)

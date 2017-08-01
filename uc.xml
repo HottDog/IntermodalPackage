@@ -21,15 +21,23 @@
 			<content>first</content>
 		</insert>
 	</android>
-	<script name="1ww.txt">
-		<insert name="first">
+	<script name="test.txt">
+		<insert name="insert1">
 			<content>hello world!</content>
-			<content>first</content>
+			<content>插入第一次</content>
 		</insert>
-		<insert name="first2ss">
+		<insert name="insert2">
+			<content>我喜欢你</content>
+			<content>插入</content>
+		</insert>
+		<update name="update1">
 			<content>hello world!</content>
-			<content>first</content>
-		</insert>
+			<content>update更新</content>
+		</update>
+		<update name="update2">
+			<content>我真的很快乐</content>
+			<content>大家好才是真的好</content>
+		</update>
 	</script>
 	<script name="2ss.txt">
 		<insert name="firssst">
