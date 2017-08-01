@@ -4,7 +4,7 @@ import func
 import constant
 
 CHECK_KEY_SENTENCE = "\-{2}\*{2}.+\*{2}\-{2}"
-GET_KEYWORD = "[0-9a-z]+"
+GET_KEYWORD = "[0-9a-zA-Z]+"
 GET_INCLUDE_LIST = r"(?<=(\<include\>))(.+)(?=(\<\/include\>))"
 GET_EXCEPT_LIST = r"(?<=(\<except\>))(.+)(?=(\<\/except\>))"
 def rrr(m):

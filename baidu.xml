@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package name="baidu"
+		 desc="百度联运包">
+	<script name="godPay.lua">
+		<insert name="godpay">
+			<content>        elseif pmode == PayUtil.pay_mode_baidu then</content>
+			<content>            order.baiduCodeId = data.code.baiduPayCodeId:get_value();</content>
+			<content>            order.pamount = data.amount:get_value();</content>
+			<content>            order.name = data.name:get_value();</content>
+			<content>            order.pid = data.pid:get_value();</content>
+			<content>            order.baiduMMcode = data.code.baiduMMCode:get_value();</content>
+		</insert>
+	</script>
+	<script name="payUtil.lua">
+		<insert name="payUtil">
+			<content>    PayUtil.pay_mode_baidu = 294;          --百度;</content>
+		</insert>
+		<update name="payUtil">
+			<content>    	PayUtil.pay_mode_baidu;</content>
+		</update>
+	</script>
+	<script name="pay_dialog.lua">
+		<insert name="payDialog">
+			<content>    PayDialog.pay_mode_baidu = 294;          --百度;</content>
+		</insert>
+		<insert name="payMode">
+			<content>        {mode = PayDialog.pay_mode_baidu,           icon = "",                                      title = "百度支付"},</content>
+		</insert>
+	</script>
+	<script name="hallController.lua">
+		<update name="logout">
+			<content>    	call_native(kBaiduLogout);</content>
+		</update>
+	</script>
+</package>

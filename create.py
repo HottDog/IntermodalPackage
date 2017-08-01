@@ -46,7 +46,7 @@ def modifyFile(rPath,wPath,fileName,package):
     w.close()
 
 def directCopyFile(path):
-    tPath = func.getCopyDestination(constant.SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path)
+    tPath = func.getCopyDestination(constant.WORK_SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path)
     func.copyFile(path,tPath)
 
 def isFileNeedModify(path,package):
@@ -59,7 +59,7 @@ def isFileNeedModify(path,package):
 
 def processFile(path,package):
     if isFileNeedModify(path,package):
-        modifyFile(path,func.getCopyDestination(constant.SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path),func.getFileNameFromPath(path),package)
+        modifyFile(path,func.getCopyDestination(constant.WORK_SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path),func.getFileNameFromPath(path),package)
     else:
         directCopyFile(path)
 
@@ -82,6 +82,6 @@ def traverse(path,package):
             traverse(path+"\\"+file,package)
 
 if __name__ == '__main__':
-    package = xmlReader.parseXML("uc.xml")
-    traverse(constant.SCRIPT_RESOURCE_PATH,package)
+    package = xmlReader.parseXML("baidu.xml")
+    traverse(constant.WORK_SCRIPT_RESOURCE_PATH,package)
     # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)
