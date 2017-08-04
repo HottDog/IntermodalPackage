@@ -2,6 +2,7 @@
 import func
 import constant
 import os
+import sys
 # f= func.getFileWriteObj(constant.TEST_PATH_HOME+"1.txt")
 # func.writeFileInTheEndByLine(f,"hello world!")
 # func.writeFileInTheEndByLine(f,"i love you")
@@ -35,6 +36,12 @@ import os
 path = "E:\\test_workspace\\IntermodalPackage\\resource\\script\\error.lua"
 name= os.path.basename("E:\\test_workspace\\IntermodalPackage\\resource\\script\\error.lua")
 etc = os.path.splitext("E:\\test_workspace\\IntermodalPackage\\resource\\script\\error.lua")
-print(func.getFileSuffixName(path))
+# print(func.getFileSuffixName(path))
 # print(name)
 # print(etc[1])
+print(os.path.dirname(path))
+top_path = func.getThePreviousLevelPath(path)
+print(top_path)
+top_path = "E:\\test_workspace\\IntermodalPackage\\resource"
+tt_path = sys.path.append(os.path.abspath(os.path.dirname(top_path) + '/' + '../../'))
+print(tt_path)

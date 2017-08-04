@@ -5,6 +5,8 @@ import func
 import constant
 import recogniseLabel
 import os
+import shutil
+import PATH
 def excuteAction(w,s,isKey,action,name,dict):
     if action == constant.NORMAL_WRITE:
         if not isKey:
@@ -45,8 +47,8 @@ def modifyFile(rPath,wPath,fileName,package):
     f.close()
     w.close()
 
-def directCopyFile(path):
-    tPath = func.getCopyDestination(constant.WORK_SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path)
+def directCopyFile(path,aimPath):
+    tPath = func.getCopyDestination(PATH.RESOURCE_SCRIPTS,aimPath,path)
     func.copyFile(path,tPath)
 
 def isFileNeedModify(path,package):
@@ -57,31 +59,33 @@ def isFileNeedModify(path,package):
     else:
         return False
 
-def processFile(path,package):
+def processFile(path,package,aimPath):
     if isFileNeedModify(path,package):
-        modifyFile(path,func.getCopyDestination(constant.WORK_SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path),func.getFileNameFromPath(path),package)
+        modifyFile(path,func.getCopyDestination(PATH.RESOURCE_SCRIPTS,aimPath,path),func.getFileNameFromPath(path),package)
     else:
-        directCopyFile(path)
+        directCopyFile(path,aimPath)
 
-def traverse(path,package):
+def traverse(package,aimPath):
     #如果是单个文件，则直接处理
-    if not os.path.isdir(path):
-        processFile(path,package)
+    if not os.path.isdir(PATH.RESOURCE_SCRIPTS):
+        processFile(PATH.RESOURCE_SCRIPTS,package,aimPath)
         return
     else:
-        directCopyFile(path)
+        directCopyFile(PATH.RESOURCE_SCRIPTS,aimPath)
     #如果是文件夹则遍历处理
-    files =os.listdir(path)
+    files =os.listdir(PATH.RESOURCE_SCRIPTS)
     for file in files:
-        if not os.path.isdir(path+"\\"+file):
+        if not os.path.isdir(PATH.RESOURCE_SCRIPTS+"\\"+file):
             #不是文件夹
-            processFile(path+"\\"+file,package)
+            processFile(PATH.RESOURCE_SCRIPTS+"\\"+file,package,aimPath)
         else:
             # print('文件夹:'+path+"\\"+file)
-            directCopyFile(path+"\\"+file)
-            traverse(path+"\\"+file,package)
+            directCopyFile(PATH.RESOURCE_SCRIPTS+"\\"+file,aimPath)
+            traverse(PATH.RESOURCE_SCRIPTS+"\\"+file,package)
 
 if __name__ == '__main__':
-    package = xmlReader.parseXML("baidu.xml")
-    traverse(constant.WORK_SCRIPT_RESOURCE_PATH,package)
+    package = xmlReader.parseXML(PATH.XML_CONFIG + "baidu.xml")
+    aim_path = PATH.GENERATE + package["name"] + PATH.SCRIPTS
+    func.createFile(aim_path)
+    traverse(package,aim_path)
     # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)
