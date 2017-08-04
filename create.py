@@ -65,27 +65,28 @@ def processFile(path,package,aimPath):
     else:
         directCopyFile(path,aimPath)
 
-def traverse(package,aimPath):
+def traverse(path,package,aimPath):
     #如果是单个文件，则直接处理
-    if not os.path.isdir(PATH.RESOURCE_SCRIPTS):
-        processFile(PATH.RESOURCE_SCRIPTS,package,aimPath)
+    if not os.path.isdir(path):
+        processFile(path,package,aimPath)
         return
     else:
-        directCopyFile(PATH.RESOURCE_SCRIPTS,aimPath)
+        directCopyFile(path,aimPath)
     #如果是文件夹则遍历处理
-    files =os.listdir(PATH.RESOURCE_SCRIPTS)
+    files =os.listdir(path)
     for file in files:
-        if not os.path.isdir(PATH.RESOURCE_SCRIPTS+"\\"+file):
+        if not os.path.isdir(path+"\\"+file):
             #不是文件夹
-            processFile(PATH.RESOURCE_SCRIPTS+"\\"+file,package,aimPath)
+            processFile(path+"\\"+file,package,aimPath)
         else:
             # print('文件夹:'+path+"\\"+file)
-            directCopyFile(PATH.RESOURCE_SCRIPTS+"\\"+file,aimPath)
-            traverse(PATH.RESOURCE_SCRIPTS+"\\"+file,package)
+            directCopyFile(path+"\\"+file,aimPath)
+            traverse(path+"\\"+file,package,aimPath)
 
 if __name__ == '__main__':
     package = xmlReader.parseXML(PATH.XML_CONFIG + "baidu.xml")
     aim_path = PATH.GENERATE + package["name"] + PATH.SCRIPTS
+    print(aim_path)
     func.createFile(aim_path)
-    traverse(package,aim_path)
+    traverse(PATH.RESOURCE_SCRIPTS,package,aim_path)
     # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)
