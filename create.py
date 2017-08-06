@@ -7,86 +7,73 @@ import recogniseLabel
 import os
 import shutil
 import PATH
-def excuteAction(w,s,isKey,action,name,dict):
-    if action == constant.NORMAL_WRITE:
-        if not isKey:
-            func.writeFileInTheEndByLine(w,s)
-    elif action == constant.UPDATE_WRITE:
-        if action != constant.UPDATE_WRITE_END:
-            if not isKey:
-                func.writeFileInTheEndByLines(w,dict["update"][name])
-                return constant.UPDATE_WRITE_END
-    elif action == constant.INSERT_WRITE:
-        func.writeFileInTheEndByLines(w,dict["insert"][name])
-        return constant.NORMAL_WRITE
-    return None
+import fileAction
 
-def modifyFile(rPath,wPath,fileName,package):
-    f=func.getFileReadObj(rPath)
-    w=func.getFileWriteObj(wPath)
-    action = constant.NORMAL_WRITE
-    packageName = package["name"]
-    dealContent = package[xmlReader.SCRIPT][fileName]
-    print(dealContent)
-    s=func.readLineWithoutLineBreak(f)
-    name = ""
-    while(s):
-        isKeySentence = False
-        groupTemp = readLabel.getParseLabelResult(s)
-        print(groupTemp)
-        if groupTemp!= None:
-            actiomTmp,nameTmp = recogniseLabel.getFileProcessAction(groupTemp,packageName)
-            if actiomTmp != None:
-                action = actiomTmp
-                name = nameTmp
-            isKeySentence=True
-        actiomDealTmp = excuteAction(w,s,isKeySentence,action,name,dealContent)
-        if actiomDealTmp!=None:
-            action =actiomDealTmp
-        s = func.readLineWithoutLineBreak(f)
-    f.close()
-    w.close()
-
-def directCopyFile(path,aimPath):
-    tPath = func.getCopyDestination(PATH.RESOURCE_SCRIPTS,aimPath,path)
+def directCopyFile(path,resourcePath,aimPath):
+    tPath = func.getCopyDestination(path,resourcePath,aimPath)
     func.copyFile(path,tPath)
 
-def isFileNeedModify(path,package):
+def isFileNeedModify(path,dict):
     fileName = func.getFileNameFromPath(path)
-    if func.isInDict(fileName,package[xmlReader.SCRIPT]):
+    # if func.isInDict(fileName,package[xmlReader.SCRIPT]):
+    if func.isInDict(fileName,dict):
         # processFile(path,func.getCopyDestination(constant.SCRIPT_RESOURCE_PATH,constant.SCRIPT_COMBINED_PATH,path))
         return True
     else:
         return False
 
-def processFile(path,package,aimPath):
-    if isFileNeedModify(path,package):
-        modifyFile(path,func.getCopyDestination(PATH.RESOURCE_SCRIPTS,aimPath,path),func.getFileNameFromPath(path),package)
+# 处理文件
+# dict script或者android的整个dict内容，eg.package[xmlReader.SCRIPT]
+def processFile(path,resourcePath,aimPath,packageName,dict):
+    if isFileNeedModify(path,dict):
+        print("file:"+path+"   action:modify")
+        fileAction.modifyFile(path,func.getCopyDestination(path,resourcePath,aimPath),packageName,dict[func.getFileNameFromPath(path)])
     else:
-        directCopyFile(path,aimPath)
+        print("file:"+path+"   action:copy")
+        directCopyFile(path,resourcePath,aimPath)
 
-def traverse(path,package,aimPath):
+# 处理其他资源的文件夹
+# return 是否退出对该文件夹的遍历操作，如果是true，则表示不对该文件夹进行遍历，如果是false，则表示对该文件夹继续遍历
+def processOtherResourceFiles():
+    return False
+
+# 处理lua和java代码内容文件夹
+def processContentFiles(path,resourcePath,aimPath):
+    directCopyFile(path,resourcePath,aimPath)
+    return False
+# 遍历文件夹操作
+# args说明
+# processFiles 对文件夹的处理，返回结果如果是true，则表示不对该文件夹进行遍历，如果是false，则表示对该文件夹继续遍历
+# dict script或者android的整个dict内容，eg.package[xmlReader.SCRIPT]
+def traverse(processFile,processFiles,path,resourcePath,aimPath,packageName,dict):
     #如果是单个文件，则直接处理
     if not os.path.isdir(path):
-        processFile(path,package,aimPath)
+        processFile(path,resourcePath,aimPath,packageName,dict)
         return
-    else:
-        directCopyFile(path,aimPath)
+    if processFiles(path,resourcePath,aimPath):   #是否继续遍历该文件夹
+        return
     #如果是文件夹则遍历处理
     files =os.listdir(path)
     for file in files:
         if not os.path.isdir(path+"\\"+file):
             #不是文件夹
-            processFile(path+"\\"+file,package,aimPath)
+            processFile(path+"\\"+file,resourcePath,aimPath,packageName,dict)
         else:
             # print('文件夹:'+path+"\\"+file)
-            directCopyFile(path+"\\"+file,aimPath)
-            traverse(path+"\\"+file,package,aimPath)
+            # directCopyFile(path+"\\"+file,aimPath)
+            traverse(processFile,processFiles,path+"\\"+file,resourcePath,aimPath,packageName,dict)
 
 if __name__ == '__main__':
-    package = xmlReader.parseXML(PATH.XML_CONFIG + "baidu.xml")
-    aim_path = PATH.GENERATE + package["name"] + PATH.SCRIPTS
+    package = xmlReader.parseXML(PATH.XML_CONFIG + "huawei.xml")
+    # 处理lua脚本内容
+    aim_path = PATH.GENERATE + package[constant.NAME] + PATH.SCRIPTS
     print(aim_path)
-    func.createFile(aim_path)
-    traverse(PATH.RESOURCE_SCRIPTS,package,aim_path)
+    func.createFile(aim_path)    #创建scripts文件夹
+    traverse(processFile,processContentFiles,PATH.RESOURCE_SCRIPTS,PATH.RESOURCE_SCRIPTS,aim_path,package[constant.NAME],package[xmlReader.SCRIPT])
+
+    # 处理android中java代码部分的内容
+    aim_path_android = PATH.GENERATE + package[constant.NAME] + PATH.SRC
+    print(aim_path_android)
+    func.createFile(aim_path_android)      #创建res文件夹
+    traverse(processFile,processContentFiles,PATH.RESOURCE_ANDROID_RES,PATH.RESOURCE_ANDROID_RES,aim_path_android,package[constant.NAME],package[xmlReader.ANDROID])
     # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)
