@@ -40,8 +40,10 @@ etc = os.path.splitext("E:\\test_workspace\\IntermodalPackage\\resource\\script\
 # print(name)
 # print(etc[1])
 print(os.path.dirname(path))
-top_path = func.getThePreviousLevelPath(path)
-print(top_path)
+# top_path = func.getThePreviousLevelPath(path)
+# print(top_path)
 top_path = "E:\\test_workspace\\IntermodalPackage\\resource"
 tt_path = sys.path.append(os.path.abspath(os.path.dirname(top_path) + '/' + '../../'))
 print(tt_path)
+if func.isLuaFile(path) :
+    print ("是lua文件")

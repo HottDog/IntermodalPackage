@@ -62,7 +62,7 @@ def getFileWriteObj(path):
 
 #判断该文件是否是lua后缀的文件,true为是
 def isLuaFile(path):
-    if os.path.splitext(path)[1] == ".lua":
+    if getFileSuffixName(path) == ".lua":
         return True
     else:
         return False
