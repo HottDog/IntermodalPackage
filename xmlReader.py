@@ -1,6 +1,8 @@
 #coding=utf-8
 from xml.dom.minidom import parse
+import string
 import xml.dom.minidom
+import func
 import constant
 SCRIPT = "script"
 ANDROID = "android"
@@ -8,6 +10,25 @@ UPDATE = "update"
 INSERT = "insert"
 CONTENT = "content"
 NAME = "name"
+def parse_xml(file_path):
+    """
+    Handle xml file with invalid character
+    [input] : path of the xml file
+    [output] : xml.dom.minidom.Document instance
+    """
+    try:
+        xmldoc = xml.dom.minidom.parse(file_path)
+    except:
+        f = func.getFileReadObj(file_path)
+        s = f.read()
+        f.close()
+
+        ss = s.translate(string.printable)
+        s = s.translate(ss)
+
+        xmldoc = xml.dom.minidom.parseString(s)
+    return xmldoc
+
 def parseKeyNodeList(nodelist,dict):
     for node in nodelist:
         contentList = []
@@ -35,7 +56,8 @@ def parseXML(file):
     script = {}
     android = {}
     package = {"name":"","script":script,"android":android}
-    DOMTree = xml.dom.minidom.parse(file)
+    # DOMTree = xml.dom.minidom.parse(file)
+    DOMTree = parse_xml(file)
     packageNode = DOMTree.documentElement
     package["name"] = packageNode.getAttribute("name")
     androidNodeList = packageNode.getElementsByTagName("android")

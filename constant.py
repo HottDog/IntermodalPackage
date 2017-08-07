@@ -21,6 +21,7 @@ ALL = "all"
 END = "end"
 INCLUDE = "include"
 EXCEPT = "except"
+NAME = "name"
 
 # 文件读写操作指令
 DELETE_PASS = 0x100

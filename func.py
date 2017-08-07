@@ -24,9 +24,9 @@ def isInDict(key,dict):
 # fPath 读取的起始路径
 # tPath 复制到的起始路径
 # 被复制文件的路径
-def getCopyDestination(fPath,tPath,path):
+def getCopyDestination(path,fPath,tPath):
     relPath = os.path.relpath(path,fPath)
-    print(tPath+"\\"+relPath)
+    # print(tPath+"\\"+relPath)
     return tPath+"\\"+relPath
 
 # 获取文件名
