@@ -13,6 +13,7 @@ TEST_COMBINED_PATH_HOME = "H:\\A_test_workspace\\IntermodalPackage\\combined\\"
 
 WORK_SCRIPT_RESOURCE_PATH = "E:\\workspace\\boyaa_chess\\release\\xiangqi_android\\Resource\\scripts"
 
+ANDROID_PACKAGE_NAME_RESOURCE = "com.boyaa.chinesechess.platform91"
 
 DELETE = "delete"
 INSERT = "insert"
@@ -22,7 +23,8 @@ END = "end"
 INCLUDE = "include"
 EXCEPT = "except"
 NAME = "name"
-
+PACKAGE_NAME = "packageName"
+IMPORT = "\nimport "
 # 文件读写操作指令
 DELETE_PASS = 0x100
 UPDATE_WRITE = 0x101

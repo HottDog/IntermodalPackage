@@ -4,6 +4,7 @@ import constant
 import xmlReader
 import recogniseLabel
 import readLabel
+import packageReplace
 
 # 文件写操作
 # args说明
@@ -54,3 +55,14 @@ def modifyFile(rPath,wPath,packageName,dealContent):
         s = func.readLineWithoutLineBreak(f)
     f.close()
     w.close()
+
+# android中java文件的包名替换
+# name android的包名
+def modifyAndroidFile(path,name):
+    f = func.getFileReadAndWriteObj(path)
+    s = f.read()
+    m = packageReplace.replacePackage(s,name)
+    f.seek(0,0)
+    f.truncate()#清空文件，只有当可以对该文件进行写操作时，该次函数才可使用
+    f.write(m)
+    f.close()

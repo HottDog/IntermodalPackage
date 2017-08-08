@@ -60,6 +60,12 @@ def getFileWriteObj(path):
     f = codecs.open(path,"w","utf8")
     return f
 
+def getFileReadAndWriteObj(path):
+    fileFormat = getFileFormat(path)
+    # 获取到文件读取对象
+    f = codecs.open(path,"r+",fileFormat)
+    return f
+
 #判断该文件是否是lua后缀的文件,true为是
 def isLuaFile(path):
     if getFileSuffixName(path) == ".lua":

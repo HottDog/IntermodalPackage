@@ -51,15 +51,16 @@ def parseNodeList(nodelist,dict):
 
 # return package
 # package的数据结构是
-# package = {"name":"","script":{"name1":{"update":{"name1":["content1","content2",...],name2:[],...},"insert":{}},"name2":{},...},"android":{}}
+# package = {"name":"","packageName":"","script":{"name1":{"update":{"name1":["content1","content2",...],name2:[],...},"insert":{}},"name2":{},...},"android":{}}
 def parseXML(file):
     script = {}
     android = {}
     package = {"name":"","script":script,"android":android}
-    # DOMTree = xml.dom.minidom.parse(file)
-    DOMTree = parse_xml(file)
+    DOMTree = xml.dom.minidom.parse(file)
+    # DOMTree = parse_xml(file)
     packageNode = DOMTree.documentElement
     package["name"] = packageNode.getAttribute("name")
+    package["packageName"] = packageNode.getAttribute("packageName")
     androidNodeList = packageNode.getElementsByTagName("android")
     parseNodeList(androidNodeList,package["android"])
     scriptNodeList = packageNode.getElementsByTagName("script")
@@ -90,3 +91,5 @@ def parseXML(file):
 #         print("有")
 # except:
 #     print("没有")
+if __name__ == '__main__':
+    print(parseXML("uc.xml"))

@@ -41,6 +41,11 @@ def processOtherResourceFiles():
 def processContentFiles(path,resourcePath,aimPath):
     directCopyFile(path,resourcePath,aimPath)
     return False
+
+# 处理包名和文件夹名替换操作
+def processAndroidOtherFile(path,androidPackageName):
+    fileAction.modifyAndroidFile(path,androidPackageName)
+
 # 遍历文件夹操作
 # args说明
 # processFiles 对文件夹的处理，返回结果如果是true，则表示不对该文件夹进行遍历，如果是false，则表示对该文件夹继续遍历
@@ -77,3 +82,5 @@ if __name__ == '__main__':
     func.createFile(aim_path_android)      #创建res文件夹
     traverse(processFile,processContentFiles,PATH.RESOURCE_ANDROID_RES,PATH.RESOURCE_ANDROID_RES,aim_path_android,package[constant.NAME],package[xmlReader.ANDROID])
     # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)
+
+    # 处理包名替换或者文件夹名替换等操作

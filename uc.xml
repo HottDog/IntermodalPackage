@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <package name="uc"
-		 desc="uc联运包">
+		 desc="uc联运包"
+		 packageName="com.boyaa.chinesechessnew.huawei"
+		>
 	<android name="1.txt">
 		<insert name="first">
 			<content>hello world!</content>
