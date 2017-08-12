@@ -97,13 +97,51 @@ def getParseLabelResult(s):
     else:
         return None
 
+def getRelaPathFromAndroidPackageName(androidPackageName):
+    groups = getKeyword(androidPackageName)
+    print(groups)
+    pathGroups = []
+    i = 0
+    for item in groups:
+        if i== 0 :
+            tempPath = item
+        else:
+            tempPath = pathGroups[i-1]+"\\"+item
+        pathGroups.insert(i,tempPath)
+        i=i+1
+    return pathGroups
+
+def getChangedRelaPath(parentName,currentName):
+    pGroups = getKeyword(parentName)
+    cGroups = getKeyword(currentName)
+    pathGroups = []
+    i=0
+    for item in pGroups:
+        if i==0:
+            tempPath = item
+        else:
+            tempPath = cGroups[0]
+            for n in range(1,i+1):
+                if n == i :
+                    tempPath=tempPath+"\\"+pGroups[n]
+                else:
+                    tempPath = tempPath+"\\"+cGroups[n]
+        pathGroups.insert(i,tempPath)
+        i=i+1
+    return pathGroups
+
 if __name__ == '__main__' :
     str = "//**update-all**//[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
     str1 = "--**update-all-end**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>"
     str2 = "--**delete-uc-end**--[name]"
     str3 = "--**delete-uc**--[name]"
     str4 = "//**delete-uc**//[first]"
-    print(getParseLabelResult(str))
+    str5 = "com.boyaa.chinese.chess"
+    str6 = "haha.ccc.4454.sdsd"
+    # print(getParseLabelResult(str))
+    # print(getRelaPathFromAndroidPackageName(str5)[2])
+    # print(constant.SCRIPT_COMBINED_PATH)
+    print(getChangedRelaPath(str5,str6))
 # group = getExceptList("--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>")
 # if group!=None:
 #     groups = getKeyword(group)

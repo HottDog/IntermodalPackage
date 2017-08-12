@@ -3,6 +3,7 @@ import func
 import constant
 import os
 import sys
+import re
 # f= func.getFileWriteObj(constant.TEST_PATH_HOME+"1.txt")
 # func.writeFileInTheEndByLine(f,"hello world!")
 # func.writeFileInTheEndByLine(f,"i love you")
@@ -39,11 +40,22 @@ etc = os.path.splitext("E:\\test_workspace\\IntermodalPackage\\resource\\script\
 # print(func.getFileSuffixName(path))
 # print(name)
 # print(etc[1])
-print(os.path.dirname(path))
-# top_path = func.getThePreviousLevelPath(path)
-# print(top_path)
-top_path = "E:\\test_workspace\\IntermodalPackage\\resource"
-tt_path = sys.path.append(os.path.abspath(os.path.dirname(top_path) + '/' + '../../'))
-print(tt_path)
-if func.isLuaFile(path) :
-    print ("是lua文件")
+# print(os.path.dirname(path))
+# # top_path = func.getThePreviousLevelPath(path)
+# # print(top_path)
+# top_path = "E:\\test_workspace\\IntermodalPackage\\resource"
+# tt_path = sys.path.append(os.path.abspath(os.path.dirname(top_path) + '/' + '../../'))
+# # print(tt_path)
+# # if func.isLuaFile(path) :
+# #     print ("是lua文件")
+#
+# x= re.split("\\ ",path)
+# # print(x)
+
+
+p = "E:\\test_workspace\\IntermodalPackage\\resource\\script\\error.lua"
+abc =  '1\\2\\3\\4\\5'
+match_str ="\\\\"
+re_word = re.compile(match_str)
+# s = re_word.sub("ss",p,0)
+print(re_word.split(abc))

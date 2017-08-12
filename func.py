@@ -3,7 +3,7 @@ import os
 import chardet
 import codecs
 import shutil
-
+import re
 # 判断某项是否在该列表中
 # 参数
 # arg1 item 某项
@@ -19,6 +19,13 @@ def isInList(item,lists):
 # return true表示包含，false表示不包含
 def isInDict(key,dict):
     return key in dict.keys()
+
+# 获取相对路径
+# path 当前路径
+# resourcePath 基准路径
+def getRelaPath(path,resourcePath):
+    return os.path.relpath(path,resourcePath)
+
 
 # 获取复制过去的路径
 # fPath 读取的起始路径
@@ -69,6 +76,13 @@ def getFileReadAndWriteObj(path):
 #判断该文件是否是lua后缀的文件,true为是
 def isLuaFile(path):
     if getFileSuffixName(path) == ".lua":
+        return True
+    else:
+        return False
+
+# 判断该文件是否是java后缀的文件，true为是
+def isJavaFile(path):
+    if getFileSuffixName(path) == ".java":
         return True
     else:
         return False
@@ -150,7 +164,35 @@ def createFile(path):
         deleteFile(path)
     os.makedirs(path)
 
+def directCopyFile(path,resourcePath,aimPath):
+    tPath = getCopyDestination(path,resourcePath,aimPath)
+    copyFile(path,tPath)
 
+# //分割字符
+def getSplitChar(str):
+    word = "\\\\"
+    re_word = re.compile(word)
+    return re_word.split(str)
+
+# 获取当前路径的上一层路径
+def getThePreviousPath(path):
+    groups = getSplitChar(path)
+    length = len(groups)
+    if length == 1:
+        return groups[0]
+    else:
+        result = groups[0]
+        for i in range(length-2):
+            result = result + "\\" + groups[i+1]
+    return result
+
+if __name__ == '__main__':
+    path = "E:\\workspace\\boyaa_chess\\release\\xiangqi_android\\Android\\src\\com"
+    path1 = "E:\\workspace\\boyaa_chess\\release"
+    resourcePath = "E:\\workspace\\boyaa_chess\\release\\xiangqi_android\\Android"
+    # print(getRelaPath(path,resourcePath))
+    sbc = "adasd\\asdad\\sdada\\sadad"
+    print(getThePreviousPath(path1))
 
 
 

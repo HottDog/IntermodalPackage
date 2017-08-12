@@ -36,7 +36,7 @@ def modifyFile(rPath,wPath,packageName,dealContent):
     action = constant.NORMAL_WRITE
     # packageName = package[constant.NAME]
     # dealContent = package[xmlReader.SCRIPT][fileName]
-    print(dealContent)
+    # print(dealContent)
     s=func.readLineWithoutLineBreak(f)
     name = ""
     while(s):

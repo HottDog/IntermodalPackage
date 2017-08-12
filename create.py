@@ -8,6 +8,7 @@ import os
 import shutil
 import PATH
 import fileAction
+import resourceIntegration
 
 def directCopyFile(path,resourcePath,aimPath):
     tPath = func.getCopyDestination(path,resourcePath,aimPath)
@@ -29,8 +30,9 @@ def processFile(path,resourcePath,aimPath,packageName,dict):
         print("file:"+path+"   action:modify")
         fileAction.modifyFile(path,func.getCopyDestination(path,resourcePath,aimPath),packageName,dict[func.getFileNameFromPath(path)])
     else:
-        print("file:"+path+"   action:copy")
-        directCopyFile(path,resourcePath,aimPath)
+        if func.isLuaFile(path) or func.isJavaFile(path):
+            print("file:"+path+"   action:copy")
+            directCopyFile(path,resourcePath,aimPath)
 
 # 处理其他资源的文件夹
 # return 是否退出对该文件夹的遍历操作，如果是true，则表示不对该文件夹进行遍历，如果是false，则表示对该文件夹继续遍历
@@ -46,6 +48,19 @@ def processContentFiles(path,resourcePath,aimPath):
 def processAndroidOtherFile(path,androidPackageName):
     fileAction.modifyAndroidFile(path,androidPackageName)
 
+# 给文件夹换名字
+# path 当前处理的文件夹路径
+# lastPath 上一级文件夹的路径
+def processAndroidOtherFiles(path,resourcePath,parentPaths,currentPaths):
+    tempPath = func.getRelaPath(path,resourcePath)
+    i =0
+    for item in parentPaths:
+        if tempPath == item :
+            newPath = resourcePath+"\\"+currentPaths[i]
+            os.rename(path,newPath)
+            return newPath
+        i=i+1
+    return None
 # 遍历文件夹操作
 # args说明
 # processFiles 对文件夹的处理，返回结果如果是true，则表示不对该文件夹进行遍历，如果是false，则表示对该文件夹继续遍历
@@ -68,10 +83,39 @@ def traverse(processFile,processFiles,path,resourcePath,aimPath,packageName,dict
             # directCopyFile(path+"\\"+file,aimPath)
             traverse(processFile,processFiles,path+"\\"+file,resourcePath,aimPath,packageName,dict)
 
+# 遍历处理android包名替换和文件夹重命名
+def traverseAndroidOtherFile(path,resourcePath,androidPackageName,parentPaths,currentPaths):
+    if not os.path.isdir(path):
+        processAndroidOtherFile(path,androidPackageName)
+        return
+    newPath = processAndroidOtherFiles(path,resourcePath,parentPaths,currentPaths)
+    if newPath!=None :
+        path = newPath
+    files = os.listdir(path)
+    for file in files:
+        if not os.path.isdir(path+"\\"+file):
+            processAndroidOtherFile(path+"\\"+file,androidPackageName)
+        else:
+            traverseAndroidOtherFile(path+"\\"+file,resourcePath,androidPackageName,parentPaths,currentPaths)
+
+# 遍历文件进行资源整合
+def traverseResourceIntegration(filterCopyFile,path,resourcePath,aimPath,filters):
+    if not os.path.isdir(path):
+        filterCopyFile(path,resourcePath,aimPath,filters)
+        return
+    if filterCopyFile(path,resourcePath,aimPath,filters):
+        return
+    files = os.listdir(path)
+    for file in files:
+        if not os.path.isdir(path+"\\"+file):
+            filterCopyFile(path+"\\"+file,resourcePath,aimPath,filters)
+        else:
+            traverseResourceIntegration(filterCopyFile,path+"\\"+file,resourcePath,aimPath,filters)
+
 if __name__ == '__main__':
     package = xmlReader.parseXML(PATH.XML_CONFIG + "huawei.xml")
     # 处理lua脚本内容
-    aim_path = PATH.GENERATE + package[constant.NAME] + PATH.SCRIPTS
+    aim_path = PATH.GENERATE + package[constant.NAME] + PATH.RESOURCE + PATH.SCRIPTS
     print(aim_path)
     func.createFile(aim_path)    #创建scripts文件夹
     traverse(processFile,processContentFiles,PATH.RESOURCE_SCRIPTS,PATH.RESOURCE_SCRIPTS,aim_path,package[constant.NAME],package[xmlReader.SCRIPT])
@@ -84,3 +128,16 @@ if __name__ == '__main__':
     # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)
 
     # 处理包名替换或者文件夹名替换等操作
+    parent_rela_paths = readLabel.getChangedRelaPath(constant.ANDROID_PACKAGE_NAME_RESOURCE,package[constant.PACKAGE_NAME])
+    current_rela_paths = readLabel.getRelaPathFromAndroidPackageName(package[constant.PACKAGE_NAME])
+    traverseAndroidOtherFile(aim_path_android,aim_path_android,package[constant.PACKAGE_NAME],parent_rela_paths,current_rela_paths)
+
+    # 资源整合
+    # 获取所有过滤路径
+    filters = resourceIntegration.getFilters(resourceIntegration.relativeFilters,package[constant.NAME])
+    aim_path_resource = PATH.GENERATE + package[constant.NAME]
+    print("整合父类资源..")
+    traverseResourceIntegration(resourceIntegration.filterCopyFile,PATH.RELEASE,PATH.RELEASE,aim_path_resource,filters)
+    resource_path = PATH.current_workspace_top+"\\resource\\" + package[constant.NAME]
+    print("整合联运包特有资源..")
+    traverseResourceIntegration(resourceIntegration.filterCopyFile,resource_path,resource_path,aim_path_resource,None)

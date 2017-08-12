@@ -55,7 +55,7 @@ def parseNodeList(nodelist,dict):
 def parseXML(file):
     script = {}
     android = {}
-    package = {"name":"","script":script,"android":android}
+    package = {"name":"","packageName":"","script":script,"android":android}
     DOMTree = xml.dom.minidom.parse(file)
     # DOMTree = parse_xml(file)
     packageNode = DOMTree.documentElement

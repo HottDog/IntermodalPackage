@@ -15,6 +15,9 @@ WORK_SCRIPT_RESOURCE_PATH = "E:\\workspace\\boyaa_chess\\release\\xiangqi_androi
 
 ANDROID_PACKAGE_NAME_RESOURCE = "com.boyaa.chinesechess.platform91"
 
+#父仓库中脚本的路径
+ORIGIN_SCRIPTS = "E:\\workspace\\boyaa_chess_origin\\script"
+
 DELETE = "delete"
 INSERT = "insert"
 UPDATE = "update"
@@ -25,6 +28,7 @@ EXCEPT = "except"
 NAME = "name"
 PACKAGE_NAME = "packageName"
 IMPORT = "\nimport "
+PACKAGE = "\npackage "
 # 文件读写操作指令
 DELETE_PASS = 0x100
 UPDATE_WRITE = 0x101
