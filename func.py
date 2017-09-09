@@ -186,6 +186,11 @@ def getThePreviousPath(path):
             result = result + "\\" + groups[i+1]
     return result
 
+# 路径替换
+def replaceByPath(oldPath,newPath):
+    shutil.copytree(oldPath,newPath)
+    deleteFile(oldPath)
+
 if __name__ == '__main__':
     path = "E:\\workspace\\boyaa_chess\\release\\xiangqi_android\\Android\\src\\com"
     path1 = "E:\\workspace\\boyaa_chess\\release"

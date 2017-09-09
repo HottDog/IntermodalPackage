@@ -137,11 +137,12 @@ if __name__ == '__main__' :
     str3 = "--**delete-uc**--[name]"
     str4 = "//**delete-uc**//[first]"
     str5 = "com.boyaa.chinese.chess"
-    str6 = "haha.ccc.4454.sdsd"
+    str6 = "haha.ccc.4454.keyikeyi.sdsd"
     # print(getParseLabelResult(str))
     # print(getRelaPathFromAndroidPackageName(str5)[2])
     # print(constant.SCRIPT_COMBINED_PATH)
     print(getChangedRelaPath(str5,str6))
+    print(getRelaPathFromAndroidPackageName(str6))
 # group = getExceptList("--**update-all**--[name]--<except>[uc][wx][vivo][oppo][baidu]</except>")
 # if group!=None:
 #     groups = getKeyword(group)

@@ -54,10 +54,21 @@ def processAndroidOtherFile(path,androidPackageName):
 def processAndroidOtherFiles(path,resourcePath,parentPaths,currentPaths):
     tempPath = func.getRelaPath(path,resourcePath)
     i =0
+    length_parent = len(parentPaths)
+    length_current = len(currentPaths)
     for item in parentPaths:
         if tempPath == item :
             newPath = resourcePath+"\\"+currentPaths[i]
-            os.rename(path,newPath)
+            # 添加对于联运包包名的字段数多于父仓库包名时的特殊处理
+            if i == (length_parent-1) and length_current>length_parent:
+                n = i+1
+                for m in range(length_current-length_parent):
+                    newPath = resourcePath + "\\" + currentPaths[n]
+                    n=n+1
+                func.replaceByPath(path,newPath)
+            else:
+                os.rename(path,newPath)
+            print("包名替换："+newPath)
             return newPath
         i=i+1
     return None
@@ -113,31 +124,42 @@ def traverseResourceIntegration(filterCopyFile,path,resourcePath,aimPath,filters
             traverseResourceIntegration(filterCopyFile,path+"\\"+file,resourcePath,aimPath,filters)
 
 if __name__ == '__main__':
-    package = xmlReader.parseXML(PATH.XML_CONFIG + "huawei.xml")
+    package = xmlReader.parseXML(PATH.XML_CONFIG + "oppo.xml")
     # 处理lua脚本内容
-    aim_path = PATH.GENERATE + package[constant.NAME] + PATH.RESOURCE + PATH.SCRIPTS
-    print(aim_path)
-    func.createFile(aim_path)    #创建scripts文件夹
-    traverse(processFile,processContentFiles,PATH.RESOURCE_SCRIPTS,PATH.RESOURCE_SCRIPTS,aim_path,package[constant.NAME],package[xmlReader.SCRIPT])
+    isDealWithLua = True
+    isDealWithAndroid = True
+    isDealWithPackage = True
+    isDealWithResource = False
+    if isDealWithLua:
+        aim_path = PATH.GENERATE + package[constant.NAME] + PATH.RESOURCE + PATH.SCRIPTS
+        print(aim_path)
+        func.createFile(aim_path)    #创建scripts文件夹
+        traverse(processFile,processContentFiles,PATH.RESOURCE_SCRIPTS,PATH.RESOURCE_SCRIPTS,aim_path,package[constant.NAME],package[xmlReader.SCRIPT])
 
     # 处理android中java代码部分的内容
-    aim_path_android = PATH.GENERATE + package[constant.NAME] + PATH.SRC
-    print(aim_path_android)
-    func.createFile(aim_path_android)      #创建res文件夹
-    traverse(processFile,processContentFiles,PATH.RESOURCE_ANDROID_RES,PATH.RESOURCE_ANDROID_RES,aim_path_android,package[constant.NAME],package[xmlReader.ANDROID])
+
+    if isDealWithAndroid:
+        aim_path_android = PATH.GENERATE + package[constant.NAME] + PATH.SRC
+        print(aim_path_android)
+        func.createFile(aim_path_android)      #创建res文件夹
+        traverse(processFile,processContentFiles,PATH.RESOURCE_ANDROID_RES,PATH.RESOURCE_ANDROID_RES,aim_path_android,package[constant.NAME],package[xmlReader.ANDROID])
     # processFile(constant.TEST_RESOURCE_PATH+"test.txt",constant.TEST_COMBINED_PATH+"test.txt","test.txt",package)
 
     # 处理包名替换或者文件夹名替换等操作
-    parent_rela_paths = readLabel.getChangedRelaPath(constant.ANDROID_PACKAGE_NAME_RESOURCE,package[constant.PACKAGE_NAME])
-    current_rela_paths = readLabel.getRelaPathFromAndroidPackageName(package[constant.PACKAGE_NAME])
-    traverseAndroidOtherFile(aim_path_android,aim_path_android,package[constant.PACKAGE_NAME],parent_rela_paths,current_rela_paths)
+
+    if isDealWithPackage :
+        parent_rela_paths = readLabel.getChangedRelaPath(constant.ANDROID_PACKAGE_NAME_RESOURCE,package[constant.PACKAGE_NAME])
+        current_rela_paths = readLabel.getRelaPathFromAndroidPackageName(package[constant.PACKAGE_NAME])
+        traverseAndroidOtherFile(aim_path_android,aim_path_android,package[constant.PACKAGE_NAME],parent_rela_paths,current_rela_paths)
 
     # 资源整合
     # 获取所有过滤路径
-    filters = resourceIntegration.getFilters(resourceIntegration.relativeFilters,package[constant.NAME])
-    aim_path_resource = PATH.GENERATE + package[constant.NAME]
-    print("整合父类资源..")
-    traverseResourceIntegration(resourceIntegration.filterCopyFile,PATH.RELEASE,PATH.RELEASE,aim_path_resource,filters)
-    resource_path = PATH.current_workspace_top+"\\resource\\" + package[constant.NAME]
-    print("整合联运包特有资源..")
-    traverseResourceIntegration(resourceIntegration.filterCopyFile,resource_path,resource_path,aim_path_resource,None)
+
+    if isDealWithResource:
+        filters = resourceIntegration.getFilters(resourceIntegration.relativeFilters,package[constant.NAME])
+        aim_path_resource = PATH.GENERATE + package[constant.NAME]
+        print("整合父类资源..")
+        traverseResourceIntegration(resourceIntegration.filterCopyFile,PATH.RELEASE,PATH.RELEASE,aim_path_resource,filters)
+        resource_path = PATH.current_workspace_top+"\\resource\\" + package[constant.NAME]
+        print("整合联运包特有资源..")
+        traverseResourceIntegration(resourceIntegration.filterCopyFile,resource_path,resource_path,aim_path_resource,None)
