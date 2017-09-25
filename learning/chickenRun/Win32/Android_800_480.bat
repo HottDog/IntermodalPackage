@@ -1,0 +1,1 @@
+win32.exe -w720 -h1280  -sw540 -sh960 -editor

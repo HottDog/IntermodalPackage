@@ -1,0 +1,1 @@
+win32.exe -w1280 -h800 print=GB2312
