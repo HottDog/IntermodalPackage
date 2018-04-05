@@ -1,1 +1,0 @@
-Win32Player.exe -w480 -h800 -sw720 -sh1280
